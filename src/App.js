@@ -1,25 +1,43 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css"
+import Form from './components/Form'
+import Table from './components/Table'
+import { Grid} from "@mui/material";
+import { useState } from 'react';
+import {addUser,updateUser} from "./utils/functions"
+import { ToastContainer } from 'react-toastify';
 
-function App() {
+
+
+const initialValues={username:"",phoneNumber:"",gender:""}
+
+const App = () => {
+
+  const [isAdd,setIsAdd]=useState(false)
+  const handleSubmit= (e)=>{
+    e.preventDefault()
+    // console.log(info)
+    if(info.id){
+      updateUser(info)
+    }else{
+        addUser(info)
+    }
+    setInfo(initialValues);
+    setIsAdd(false)
+  }
+
+  const editUser=(id,username,phoneNumber,gender)=>{
+    setIsAdd(true)
+    setInfo({id,username,phoneNumber,gender})
+  }
+
+  const [info,setInfo]=useState(initialValues)
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    <Grid container alignItems="center" justifyContent="center" sx={{padding:"2rem"}} className="mainContainer">
+      <Form info={info} setInfo={setInfo}handleSubmit={handleSubmit} isAdd={isAdd} />
+      <Table editUser={editUser}/>
+      <ToastContainer/>
+    </Grid>
+  )
 }
 
-export default App;
+export default App
